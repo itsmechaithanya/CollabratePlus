@@ -1,60 +1,32 @@
 import React, { useState } from 'react';
-import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
-import { Flex, message, Upload } from 'antd';
+import { InboxOutlined } from '@ant-design/icons';
+import { message, Upload } from 'antd';
 import logoBlack from '../assets/LogoBlack.svg'
 import details from '../assets/details.png'
 
-const getBase64 = (img, callback) => {
-    const reader = new FileReader();
-    reader.addEventListener('load', () => callback(reader.result));
-    reader.readAsDataURL(img);
-  };
-  const beforeUpload = (file) => {
-    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-    if (!isJpgOrPng) {
-      message.error('You can only upload JPG/PNG file!');
+const { Dragger } = Upload;
+const props = {
+  name: 'file',
+  multiple: true,
+  action: 'https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload',
+  onChange(info) {
+    const { status } = info.file;
+    if (status !== 'uploading') {
+      console.log(info.file, info.fileList);
     }
-    const isLt2M = file.size / 1024 / 1024 < 2;
-    if (!isLt2M) {
-      message.error('Image must smaller than 2MB!');
+    if (status === 'done') {
+      message.success(`${info.file.name} file uploaded successfully.`);
+    } else if (status === 'error') {
+      message.error(`${info.file.name} file upload failed.`);
     }
-    return isJpgOrPng && isLt2M;
-  };
+  },
+  onDrop(e) {
+    console.log('Dropped files', e.dataTransfer.files);
+  },
+};
+
 
 function Resume() {
-    const [loading, setLoading] = useState(false);
-    const [imageUrl, setImageUrl] = useState();
-    const handleChange = (info) => {
-      if (info.file.status === 'uploading') {
-        setLoading(true);
-        return;
-      }
-      if (info.file.status === 'done') {
-        // Get this url from response in real world.
-        getBase64(info.file.originFileObj, (url) => {
-          setLoading(false);
-          setImageUrl(url);
-        });
-      }
-    };
-    const uploadButton = (
-      <button
-        style={{
-          border: 0,
-          background: 'none',
-        }}
-        type="button"
-      >
-        {loading ? <LoadingOutlined /> : <PlusOutlined />}
-        <div
-          style={{
-            marginTop: 8,
-          }}
-        >
-          Upload
-        </div>
-      </button>
-    );
   return (
     <div className='h-screen w-full relative'>
         <img className=' absolute top-[3vh] left-[4vh] h-[6vh]' src={logoBlack} alt="" />
@@ -62,26 +34,13 @@ function Resume() {
             <div className='h-[80vh] w-[35vw] bg-white border-[#CECECE] border rounded-[4vh] flex flex-col items-center relative'>
                 <h1 className='text-[6.5vh] font-black mt-[7vh]'>Details</h1>
                 <div className='mt-[9vh]'>
-                    <h1>Upload your resume ( ATS Format )</h1>
-                    <Upload
-                        name="avatar"
-                        listType="picture-card"
-                        className="avatar-uploader absolute top-[35vh]"
-                        showUploadList={false}
-                        action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
-                        beforeUpload={beforeUpload}
-                        onChange={handleChange}
-                    >
-                        {imageUrl ? (
-                        <img
-                            src={imageUrl}
-                            alt="avatar"
-                            className=""
-                        />
-                        ) : (
-                        uploadButton
-                        )}
-                    </Upload>
+                    <h1 className='mb-[3vh]'>Upload your resume ( ATS Format )</h1>
+                    <Dragger {...props} >
+                    <p className="ant-upload-drag-icon">
+                      <InboxOutlined />
+                    </p>
+                    <p className="ant-upload-text">Click or drag file to this area to upload</p>
+                  </Dragger>
                 </div>
                 <div className='flex gap-[1vw] mt-[7vh] absolute bottom-[10vh]'>
                     <button className='px-[2vw] py-[1vh] border rounded-[5vh] w-fit'>Skip</button>
