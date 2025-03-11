@@ -24,7 +24,7 @@ import {
 } from "react-icons/fa";
 import Lottie from "react-lottie";
 import { Picker } from "emoji-mart";
-import "emoji-mart/css/emoji-mart.css";
+// import "emoji-mart/css/emoji-mart.css";
 import { useContext, useEffect, useState, useRef } from "react";
 import { io } from "socket.io-client";
 import ProfileModal from "./miscellaneous/Profilemodal";
@@ -36,7 +36,7 @@ import { AuthContext } from "../../auth/Auth-context";
 import { ChatState } from "./miscellaneous/ChatProvider";
 import FileUploadModal from "./miscellaneous/FileUploadModal";
 import backgroundImage from "./hello.png";
-import { useNotification } from "@/context/NotificationContext";
+import { useNotification } from "../../context/NotificationContext";
 
 var socket, selectedChatCompare;
 
