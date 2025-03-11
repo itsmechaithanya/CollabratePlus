@@ -2,6 +2,7 @@ import React from 'react'
 import { Select } from 'antd';
 import logoBlack from '../assets/LogoBlack.svg'
 import details from '../assets/detailss.png'
+import { Link } from 'react-router-dom';
 
 const courseOptions = [
   { value: "BTech", label: "BTech" },
@@ -71,7 +72,7 @@ function Details() {
                     />
                 </div>
                 <div className='flex gap-[1vw] mt-[7vh]'>
-                    <button className='px-[2vw] py-[1vh] border rounded-[5vh] w-fit'>Skip</button>
+                    <Link to="/resume"><button className='px-[2vw] py-[1vh] border rounded-[5vh] w-fit'>Skip</button></Link>
                     <button className='px-[2vw] py-[1vh] border rounded-[5vh] w-fit'>Continue <i className="ri-arrow-right-long-line"></i></button>
                 </div>
             </div>
