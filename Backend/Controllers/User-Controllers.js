@@ -39,16 +39,16 @@ const createUser = async (req, res, next) => {
     return next(error);
   }
 
-  const image = req.file.path;
+  // const image = req.file.path;
 
   const createdUser = new User({
     firstName,
     lastName,
     email,
-    password,
+    password: hashedPassword,
     mobile,
     role,
-    image,
+    // image,
   });
   try {
     await createdUser.save();
@@ -241,7 +241,7 @@ const updateUserById = async (req, res, next) => {
   }
   const id = req.params.id;
 
-  const { firstName, lastName, password, mobile, role } = req.body;
+  const { firstName, lastName, password, mobile, role, email } = req.body;
   let user;
   try {
     user = await User.findOne({ _id: id });
@@ -282,6 +282,7 @@ const updateUserById = async (req, res, next) => {
   }
   (user.firstName = firstName ? firstName : user.firstName),
     (user.lastName = lastName ? lastName : user.lastName),
+    (user.email = email ? email : user.email),
     (user.password = updatedPassword),
     (user.mobile = mobile ? mobile : user.mobile),
     (user.role = role ? role : user.role),

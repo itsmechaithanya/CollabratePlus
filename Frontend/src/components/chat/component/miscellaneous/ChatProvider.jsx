@@ -10,7 +10,7 @@ const ChatProvider = ({ children }) => {
   const [notification, setNotification] = useState([]);
   const [chats, setChats] = useState();
   const auth = useContext(AuthContext);
-  const history = useNavigate();
+
   const [isActiveChat, setIsActiveChat] = useState(false);
 
   const fetchUserDetails = async () => {

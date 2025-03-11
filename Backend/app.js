@@ -32,6 +32,7 @@ app.get("/", (req, res) => {
 
 // Error handling middleware
 app.use((err, req, res, next) => {
+  console.log(err);
   res.status(500).send({ error: "Something went wrong!" });
 });
 

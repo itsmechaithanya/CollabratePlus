@@ -47,7 +47,7 @@ router.post(
     check("email").isLength({ min: 2, max: 255 }),
     check("password").isLength({ min: 2, max: 255 }),
     check("mobile").isLength({ min: 6, max: 10 }).optional(),
-    check("role").isLength({ min: 2, max: 10 }),
+    check("role").isLength({ min: 2, max: 100 }).optional(),
   ],
   userControllers.createUser
 );
@@ -56,11 +56,12 @@ router.patch(
 
   imageUpload.single("image"),
   [
-    check("firstName").isLength({ min: 2, max: 255 }),
-    check("lastName").isLength({ min: 2, max: 255 }),
-    check("password").isLength({ min: 2, max: 255 }),
+    check("firstName").isLength({ min: 2, max: 255 }).optional(),
+    check("lastName").isLength({ min: 2, max: 255 }).optional(),
+    check("password").isLength({ min: 2, max: 255 }).optional(),
     check("mobile").isLength({ min: 6, max: 10 }).optional(),
-    check("role").isLength({ min: 6, max: 10 }),
+    check("email").isLength({ min: 2, max: 255 }).optional(),
+    check("role").isLength({ min: 2, max: 255 }).optional(),
   ],
   userControllers.updateUserById
 );
