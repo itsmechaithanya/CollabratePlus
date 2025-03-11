@@ -9,10 +9,10 @@ const userSchema = new Schema({
   password: { type: String },
   mobile: { type: String },
   role: { type: String, required: true },
-//   address: { type: String },
-//   pincode: { type: String },
-//   state: { type: String },
-//   country: { type: String },
+  //   address: { type: String },
+  //   pincode: { type: String },
+  //   state: { type: String },
+  //   country: { type: String },
   image: { type: String },
 });
 userSchema.plugin(uniqueValidator);
