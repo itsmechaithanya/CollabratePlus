@@ -113,7 +113,7 @@ function Home() {
             <h1 className='px-[2vw] py-[1vh] border rounded-full mt-[1vh] bg-white text-black'>Chat</h1>
           </div>
         </div>
-      </div>w3
+      </div>
       <div className='flex justify-between items-center px-[8vh]'>
         <div className=' h-[60vh] w-full flex justify-between items-center'>
           <div className=''>
