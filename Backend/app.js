@@ -4,7 +4,7 @@ const app = express();
 const bodyParser = require("body-parser");
 const dotenv = require("dotenv");
 const cors = require("cors");
-
+const userRoutes = require("./Routes/User-Routes");
 dotenv.config();
 
 const path = require("path");
@@ -25,7 +25,7 @@ app.use((req, res, next) => {
   }
   next();
 });
-
+app.use("/api/collaborate/user", userRoutes);
 app.get("/", (req, res) => {
   return res.status(200).json({ message: "Hello World" });
 });

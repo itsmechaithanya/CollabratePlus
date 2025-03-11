@@ -47,7 +47,7 @@ router.post(
     check("email").isLength({ min: 2, max: 255 }),
     check("password").isLength({ min: 2, max: 255 }),
     check("mobile").isLength({ min: 6, max: 10 }).optional(),
-    check("role").isLength({ min: 6, max: 10 }),
+    check("role").isLength({ min: 2, max: 10 }),
   ],
   userControllers.createUser
 );
