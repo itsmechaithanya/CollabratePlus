@@ -1,6 +1,6 @@
 const HttpError = require("../Middleware/http-error");
 const { validationResult } = require("express-validator");
-const User = require("../Models/Users");
+const User = require("../Models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const fs = require("fs");
@@ -103,6 +103,7 @@ const getUserById = async (req, res, next) => {
   try {
     user = await User.findOne({ _id: id }, "-password");
   } catch (err) {
+    console.log(err);
     const error = new HttpError(
       "Something went wrong while fetching the data, please try again",
       500

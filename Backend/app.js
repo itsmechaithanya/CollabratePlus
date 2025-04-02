@@ -5,11 +5,15 @@ const bodyParser = require("body-parser");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const userRoutes = require("./Routes/User-Routes");
-dotenv.config();
+const conversationRoutes = require("./Routes/Conversation-Routes");
+const messageRoutes = require("./Routes/Message-Routes");
+const User = require("./Models/User");
 
+dotenv.config();
+app.use(cors());
 const path = require("path");
 app.use(bodyParser.json());
-app.use(cors());
+
 app.use("/uploads/images", express.static(path.join("uploads", "images")));
 
 app.use((req, res, next) => {
@@ -25,7 +29,10 @@ app.use((req, res, next) => {
   }
   next();
 });
+
 app.use("/api/collaborate/user", userRoutes);
+app.use("/api/collaborate/message", messageRoutes);
+app.use("/api/collaborate/conversation", conversationRoutes);
 app.get("/", (req, res) => {
   return res.status(200).json({ message: "Hello World" });
 });
@@ -36,61 +43,74 @@ app.use((err, req, res, next) => {
   res.status(500).send({ error: "Something went wrong!" });
 });
 
-// Connect to MongoDB and start the server
+const io = require("socket.io")(8080, {
+  cors: {
+    origin: "http://localhost:5173",
+  },
+});
+
+// Socket.io
+let users = [];
+io.on("connection", (socket) => {
+  console.log("User connected", socket.id);
+  socket.on("addUser", (userId) => {
+    const isUserExist = users.find((user) => user.userId === userId);
+    if (!isUserExist) {
+      const user = { userId, socketId: socket.id };
+      users.push(user);
+      io.emit("getUsers", users);
+    }
+  });
+
+  socket.on(
+    "sendMessage",
+    async ({ senderId, receiverId, message, conversationId }) => {
+      const receiver = users.find((user) => user.userId === receiverId);
+      const sender = users.find((user) => user.userId === senderId);
+
+      const user = await User.findById(senderId);
+      console.log("sender :>> ", receiver);
+      if (receiver) {
+        io.to(receiver.socketId)
+          .to(sender.socketId)
+          .emit("getMessage", {
+            senderId,
+            message,
+            conversationId,
+            receiverId,
+            user: { id: user._id, fullName: user.fullName, email: user.email },
+          });
+      } else {
+        io.to(sender.socketId).emit("getMessage", {
+          senderId,
+          message,
+          conversationId,
+          receiverId,
+          user: { id: user._id, fullName: user.fullName, email: user.email },
+        });
+      }
+    }
+  );
+
+  socket.on("disconnect", () => {
+    users = users.filter((user) => user.socketId !== socket.id);
+    io.emit("getUsers", users);
+  });
+  // io.emit('getUsers', socket.userId);
+});
 const startServer = async () => {
   try {
     await mongoose.connect(
-      `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.rw3waqy.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`,
+      `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.rw3waqy.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority&appName=Cluster0`,
       { useNewUrlParser: true, useUnifiedTopology: true }
     );
-
-    const server = app.listen(3000, () => {
-      console.log(`Server is running on port ${server.address().port}`);
-    });
-
-    const io = require("socket.io")(server, {
-      pingTimeout: 60000,
-      cors: {
-        origin: true,
-        methods: ["GET", "POST"],
-        allowedHeaders: ["Content-Type", "Authorization"],
-        credentials: true,
-      },
-    });
-
-    io.on("connection", (socket) => {
-      console.log("Connected to socket.io");
-      socket.on("setup", (userData) => {
-        socket.join(userData._id);
-        socket.emit("connected");
-      });
-
-      socket.on("join chat", (room) => {
-        socket.join(room);
-      });
-      socket.on("typing", (room) => socket.in(room).emit("typing"));
-      socket.on("stop typing", (room) => socket.in(room).emit("stop typing"));
-
-      socket.on("new message", (newMessageRecieved) => {
-        var chat = newMessageRecieved.chat;
-
-        if (!chat.users) return console.log("chat.users not defined");
-
-        chat.users.forEach((user) => {
-          if (user._id == newMessageRecieved.sender._id) return;
-
-          socket.in(user._id).emit("message received", newMessageRecieved);
-        });
-      });
-
-      socket.off("setup", () => {
-        console.log("USER DISCONNECTED");
-        socket.leave(userData._id);
-      });
+    const PORT = process.env.PORT || 4444; // Default to 5000 if not in .env
+    app.listen(PORT, () => {
+      console.log(`Server is running on port ${PORT}`);
     });
   } catch (err) {
-    console.error(err);
-    process.exit(1);
+    console.log(err);
+    console.log(err);
   }
 };
 //testing
