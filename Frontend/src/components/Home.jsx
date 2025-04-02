@@ -201,18 +201,19 @@ function Home() {
             <div className="flex text-[#A3A3A3] gap-[2vw] text-[3vh] mt-[2vh]">
               <div className="">
                 <h1>
-                  <i class="ri-arrow-right-up-line text-white"></i>Chiathanya
+                  <i className="ri-arrow-right-up-line text-white"></i>
+                  Chiathanya
                 </h1>
                 <h1>
-                  <i class="ri-arrow-right-up-line text-white"></i>Vignesh
+                  <i className="ri-arrow-right-up-line text-white"></i>Vignesh
                 </h1>
               </div>
               <div>
                 <h1>
-                  <i class="ri-arrow-right-up-line text-white"></i>Thanmayi
+                  <i className="ri-arrow-right-up-line text-white"></i>Thanmayi
                 </h1>
                 <h1>
-                  <i class="ri-arrow-right-up-line text-white"></i>Abhiram
+                  <i className="ri-arrow-right-up-line text-white"></i>Abhiram
                 </h1>
               </div>
             </div>

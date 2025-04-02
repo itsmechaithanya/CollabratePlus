@@ -15,11 +15,12 @@ import HigherDetails from "./components/HigherDetails";
 import Welcome from "./components/Welcome";
 import Designation from "./components/Designation";
 import Home from "./components/Home";
-import Chatpage from "./components/chat/Chatpage";
+// import Chatpage from "./components/chat/Chatpage";
 import { useAuth } from "./components/auth/auth-hook";
 import { BeatLoader } from "react-spinners";
 import { AuthContext } from "./components/auth/Auth-context";
-import ChatProvider from "./components/chat/component/miscellaneous/ChatProvider";
+import Dashboard from "./modules/Dashboard";
+// import ChatProvider from "./components/chat/component/miscellaneous/ChatProvider";
 
 function App() {
   // Initialize Lenis
@@ -64,7 +65,8 @@ function App() {
         <Route path="/studentdetails" element={<StudentDetails />} />
         <Route path="/higherdetails" element={<HigherDetails />} />
         <Route path="/resume" element={<Resume />} />
-        <Route path="/chats" element={<Chatpage />} />
+        <Route path="/chats" element={<Dashboard />} />
+
         <Route path="/" element={<Home />} />
       </Routes>
     );
@@ -76,7 +78,7 @@ function App() {
         <Route path="/studentdetails" element={<StudentDetails />} />
         <Route path="/higherdetails" element={<HigherDetails />} />
         <Route path="/resume" element={<Resume />} />
-        <Route path="/chats" element={<Chatpage />} />
+        <Route path="/chats" element={<Dashboard />} />
         <Route path="/" element={<Home />} />
       </Routes>
     );
@@ -88,7 +90,7 @@ function App() {
         <Route path="/studentdetails" element={<StudentDetails />} />
         <Route path="/higherdetails" element={<HigherDetails />} />
         <Route path="/resume" element={<Resume />} />
-        <Route path="/chats" element={<Chatpage />} />
+        <Route path="/chats" element={<Dashboard />} />
         <Route path="/" element={<Home />} />
       </Routes>
     );
@@ -100,6 +102,8 @@ function App() {
         <Route path="/studentdetails" element={<StudentDetails />} />
         <Route path="/higherdetails" element={<HigherDetails />} />
         <Route path="/resume" element={<Resume />} />
+        <Route path="/chats" element={<Dashboard />} />
+        <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/*" element={<Navigate to="/login" replace />} />
@@ -118,8 +122,8 @@ function App() {
         role: role,
       }}
     >
-      {/* <ChatProvider> */}
       <Router>
+        {/* <ChatProvider> */}
         <Suspense
           fallback={
             <div
@@ -136,8 +140,8 @@ function App() {
         >
           <main>{routes}</main>
         </Suspense>
+        {/* </ChatProvider> */}
       </Router>
-      {/* </ChatProvider> */}
     </AuthContext.Provider>
   );
 }

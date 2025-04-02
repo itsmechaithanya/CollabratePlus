@@ -18,7 +18,7 @@ function Login() {
 
     try {
       const response = await fetch(
-        "http://localhost:3000/api/collaborate/user/login",
+        "http://localhost:4444/api/collaborate/user/login",
         {
           method: "POST",
           headers: {
@@ -37,7 +37,7 @@ function Login() {
       // Store token & navigate to home
       auth.login(data.userId, data.token, data.email, data.role);
       message.success("Logged in successfully");
-      navigate("/welcome");
+      navigate("/");
     } catch (err) {
       setError(err.message);
     } finally {

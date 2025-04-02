@@ -10,6 +10,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "react-scripts": "5.0.1",
+    "web-vitals": "^2.1.4",
     "@chakra-ui/avatar": "^2.3.0",
     "@chakra-ui/form-control": "^2.2.0",
     "@chakra-ui/icons": "^2.1.1",
