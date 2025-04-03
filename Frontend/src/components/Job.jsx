@@ -1,7 +1,22 @@
 import React from "react";
 import { FaTrash } from "react-icons/fa";
 import { Input, DatePicker, Select } from "antd";
-import "./job.css";
+import { UploadOutlined } from '@ant-design/icons';
+import { Button, Upload } from 'antd';
+const props = {
+  action: '//jsonplaceholder.typicode.com/posts/',
+  listType: 'picture',
+  previewFile(file) {
+    console.log('Your upload file:', file);
+    // Your process logic. Here we just mock to the same file
+    return fetch('https://next.json-generator.com/api/json/get/4ytyBoLK8', {
+      method: 'POST',
+      body: file,
+    })
+      .then(res => res.json())
+      .then(({ thumbnail }) => thumbnail);
+  },
+};
 
 const { TextArea } = Input;
 const onChange = (e) => {
@@ -81,7 +96,6 @@ function Job() {
               <label className="block mb-1 font-medium">Description</label>
               <TextArea
                 showCount
-                className="dateee"
                 maxLength={100}
                 onChange={onChange}
                 placeholder="disable resize"
@@ -93,7 +107,7 @@ function Job() {
                   resize: "none",
                 }}
               />
-              <label className="block mb-1 font-medium mt-[3vh]">Date</label>
+              <label className="block mb-1 font-medium mt-[5vh]">Date</label>
               <DatePicker
                 onChange={onChange}
                 style={{
@@ -102,6 +116,16 @@ function Job() {
                   borderColor: "#374151",
                 }}
               />
+                <Upload {...props}>
+                  
+                  <Button                
+                  style={{
+                  backgroundColor: "black",
+                  color: "white",
+                  borderColor: "#374151",
+                  marginLeft: "1vw",
+                }} icon={<UploadOutlined />}>Upload</Button>
+                </Upload>
             </div>
           </div>
         </div>
