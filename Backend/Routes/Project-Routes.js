@@ -46,7 +46,7 @@ router.post(
     check("members").isLength({ min: 2 }).optional(),
     check("deadline").isLength({ min: 2, max: 255 }).optional(),
     check("createdBy").isLength({ min: 2, max: 255 }),
-    check("paidFlag").isLength({ min: 2, max: 255 }),
+    check("reward").isLength({ min: 2, max: 255 }),
   ],
   projectControllers.createProject
 );

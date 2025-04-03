@@ -1,19 +1,20 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FaTrash } from "react-icons/fa";
 import { Input, DatePicker, Select } from "antd";
-import { UploadOutlined } from '@ant-design/icons';
-import { Button, Upload } from 'antd';
+import { UploadOutlined } from "@ant-design/icons";
+import { Button, Upload } from "antd";
+import { AuthContext } from "./auth/Auth-context";
 const props = {
-  action: '//jsonplaceholder.typicode.com/posts/',
-  listType: 'picture',
+  action: "//jsonplaceholder.typicode.com/posts/",
+  listType: "picture",
   previewFile(file) {
-    console.log('Your upload file:', file);
+    console.log("Your upload file:", file);
     // Your process logic. Here we just mock to the same file
-    return fetch('https://next.json-generator.com/api/json/get/4ytyBoLK8', {
-      method: 'POST',
+    return fetch("https://next.json-generator.com/api/json/get/4ytyBoLK8", {
+      method: "POST",
       body: file,
     })
-      .then(res => res.json())
+      .then((res) => res.json())
       .then(({ thumbnail }) => thumbnail);
   },
 };
@@ -46,6 +47,67 @@ fieldOfInterestOptions.push({
 });
 
 function Job() {
+  const auth = useContext(AuthContext);
+  const [title, setTitle] = useState("");
+  const [reward, setReward] = useState("");
+  const [category, setCategory] = useState("");
+  const [description, setDescription] = useState("");
+  const [deadline, setDeadline] = useState(null);
+  const [file, setFile] = useState(null);
+  const [projects, setProjects] = useState([]); // Store fetched projects
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const response = await fetch(
+          "http://localhost:4444/api/collaborate/project/get/all/projects"
+        );
+        if (response.ok) {
+          const data = await response.json();
+          setProjects(data.projects); // Assuming API returns { projects: [...] }
+        } else {
+          console.error("Error fetching projects");
+        }
+      } catch (error) {
+        console.error("Network error:", error);
+      }
+    };
+
+    fetchProjects();
+  }, []); // Empty dependency array means it runs only once when the component mounts
+
+  const handleFileChange = (info) => {
+    setFile(info.file.originFileObj);
+  };
+
+  const handleSave = async () => {
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("description", description);
+    formData.append("createdBy", auth.userId); // Replace with dynamic userId
+    formData.append("reward", reward);
+    formData.append("deadline", deadline);
+    formData.append("category", category);
+    if (file) formData.append("file", file);
+
+    try {
+      const response = await fetch(
+        "http://localhost:4444/api/collaborate/project/create/project",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      if (response.ok) {
+        console.log("Job created successfully!");
+      } else {
+        console.error("Error creating job");
+      }
+    } catch (error) {
+      console.error("Network error:", error);
+    }
+  };
   return (
     <div className="h-screen bg-black text-white px-12 py-8 font-sans">
       <div className="flex items-center gap-[2vw]">
@@ -71,25 +133,49 @@ function Job() {
                 <label className="block mb-1 font-medium">Title</label>
                 <input
                   type="text"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
                   className="w-full p-2 bg-black rounded-lg border border-gray-700 focus:outline-none px-[1vw]"
                 />
               </div>
               <div className="mb-4">
                 <label className="block mb-1 font-medium">Reward</label>
-                <input
+                <select
                   type="text"
-                  className="w-full p-2 bg-black rounded-lg border border-gray-700 focus:outline-none px-[1vw]"
-                />
+                  value={reward}
+                  onChange={(e) => setReward(e.target.value)}
+                  className="w-full p-2 bg-black rounded-lg border border-gray-700 focus:outline-none"
+                >
+                  <option>None</option>
+                  <option value="Paid">Paid</option>
+                  <option value="Unpaid">Unpaid</option>
+                  <option value="Certificate">Certificate</option>
+                </select>
               </div>
               <div className="mb-4">
                 <label className="block mb-1 font-medium">Category</label>
-                <select className="w-full p-3 bg-black rounded-lg border border-gray-700 focus:outline-none">
-                <option>Programming and Tech</option>
-                <option>Research and Content Writer.</option>
-                <option>Graphic and Design.</option>
-                <option>Video and Animation</option>
-                <option>Assignments and Other</option>
-              </select>
+                <select
+                  value={category}
+                  onChange={(e) => setCategory(e.target.value)}
+                  className="w-full p-3 bg-black rounded-lg border border-gray-700 focus:outline-none"
+                >
+                  <option>None</option>
+                  <option value="Programming And Tech">
+                    Programming and Tech
+                  </option>
+                  <option value="Research And Content Writer">
+                    Research and Content Writer.
+                  </option>
+                  <option value="Graphic And Design">
+                    Graphic and Design.
+                  </option>
+                  <option value="Video And Animation">
+                    Video and Animation
+                  </option>
+                  <option value="Assignments And Other">
+                    Assignments and Other
+                  </option>
+                </select>
               </div>
             </div>
             <div>
@@ -97,7 +183,8 @@ function Job() {
               <TextArea
                 showCount
                 maxLength={100}
-                onChange={onChange}
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
                 placeholder="disable resize"
                 style={{
                   height: 120,
@@ -109,54 +196,63 @@ function Job() {
               />
               <label className="block mb-1 font-medium mt-[5vh]">Date</label>
               <DatePicker
-                onChange={onChange}
+                onChange={(date, dateString) => setDeadline(dateString)}
                 style={{
                   backgroundColor: "black",
                   color: "white",
                   borderColor: "#374151",
                 }}
               />
-                <Upload {...props}>
-                  
-                  <Button                
+              <Upload beforeUpload={() => false} onChange={handleFileChange}>
+                <Button
                   style={{
-                  backgroundColor: "black",
-                  color: "white",
-                  borderColor: "#374151",
-                  marginLeft: "1vw",
-                }} icon={<UploadOutlined />}>Upload</Button>
-                </Upload>
+                    backgroundColor: "black",
+                    color: "white",
+                    borderColor: "#374151",
+                    marginLeft: "1vw",
+                  }}
+                  icon={<UploadOutlined />}
+                >
+                  Upload
+                </Button>
+              </Upload>
             </div>
           </div>
         </div>
         <div className="w-1/3">
           <h3 className="text-xl font-bold mb-4">Previous Posts</h3>
           <div className="space-y-4">
-            {[1, 2].map((post, index) => (
-              <div
-                key={index}
-                className="bg-[#1E1E1E] p-4 rounded-lg flex justify-between items-center"
-              >
-                <div>
-                  <h4 className="text-lg font-semibold">
-                    Web Developer Needed For Business Project
-                  </h4>
+            {projects.length > 0 ? (
+              projects.map((project) => (
+                <div
+                  key={project._id}
+                  className="bg-[#1E1E1E] p-4 rounded-lg flex justify-between items-center"
+                >
+                  <div>
+                    <h4 className="text-lg font-semibold">{project.title}</h4>
+                    <p className="text-gray-400 text-sm">{project.category}</p>
+                  </div>
+                  <div className="flex space-x-3">
+                    <button className="bg-white text-black px-4 py-2 rounded-lg">
+                      Edit
+                    </button>
+                    <button className="text-white text-xl">
+                      <FaTrash />
+                    </button>
+                  </div>
                 </div>
-                <div className="flex space-x-3">
-                  <button className="bg-white text-black px-4 py-2 rounded-lg">
-                    Edit
-                  </button>
-                  <button className="text-white text-xl">
-                    <FaTrash />
-                  </button>
-                </div>
-              </div>
-            ))}
+              ))
+            ) : (
+              <p className="text-gray-500">No job posts found.</p>
+            )}
           </div>
         </div>
       </div>
       <div className="mt-8 flex gap-[1vw] justify-end absolute bottom-[12vh] right-[10vw]">
-        <button className="bg-white text-black px-6 py-3 rounded-full font-medium">
+        <button
+          className="bg-white text-black px-6 py-3 rounded-full font-medium"
+          onClick={handleSave}
+        >
           Save
         </button>
         <button className="bg-white text-black px-6 py-3 rounded-full font-medium">

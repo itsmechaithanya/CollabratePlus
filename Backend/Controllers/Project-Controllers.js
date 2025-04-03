@@ -5,16 +5,17 @@ const Project = require("../Models/Projects");
 const fs = require("fs");
 const createProject = async (req, res, next) => {
   const errors = validationResult(req);
+  console.log(errors);
   if (!errors.isEmpty()) {
     const error = new HttpError("Invalid inputs, please try again", 422);
     return next(error);
   }
-  const { title, description, createdBy, paidFlag, deadline, members } =
+  const { title, description, createdBy, reward, deadline, members, category } =
     req.body;
   let existingProject;
   try {
     existingProject = await Project.findOne({
-      projectName: projectName,
+      title: title,
     });
   } catch (err) {
     const error = new HttpError(
@@ -35,14 +36,16 @@ const createProject = async (req, res, next) => {
     title,
     description,
     createdBy,
-    paidFlag,
+    reward,
     deadline,
     members,
     filePaths,
+    category,
   });
   try {
     await createdProject.save();
   } catch (err) {
+    console.log(err);
     const error = new HttpError(
       "Something went wrong while saving the data, please try again",
       500
@@ -96,7 +99,7 @@ const getProjectsByEmail = async (req, res, next) => {
 const updateProjectById = async (req, res, next) => {
   const id = req.params.id;
   let project;
-  const { title, description, createdBy, paidFlag, deadline, members } =
+  const { title, description, createdBy, reward, deadline, members, category } =
     req.body;
   try {
     project = await Project.findOne({ _id: id });
@@ -122,7 +125,8 @@ const updateProjectById = async (req, res, next) => {
   project.deadline = deadline ? deadline : project.deadline;
   project.createdBy = createdBy ? createdBy : project.createdBy;
   project.progress = progress ? progress : project.progress;
-  project.paidFlag = paidFlag ? paidFlag : project.paidFlag;
+  project.reward = reward ? reward : project.reward;
+  project.category = category ? category : project.category;
 
   try {
     project.save();
