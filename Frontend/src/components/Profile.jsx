@@ -1,5 +1,5 @@
-import React from 'react';
-import { FaArrowLeft } from 'react-icons/fa';
+import React from "react";
+import { FaArrowLeft } from "react-icons/fa";
 
 function Profile() {
   return (
@@ -14,7 +14,8 @@ function Profile() {
       <div className="mt-8">
         <h2 className="text-3xl font-bold">User Information</h2>
         <p className="text-gray-400 mt-2">
-          Here you can edit and update public information about yourself, making it more personalized.
+          Here you can edit and update public information about yourself, making
+          it more personalized.
         </p>
       </div>
 
@@ -62,7 +63,9 @@ function Profile() {
 
             {/* Field Of Interest */}
             <div>
-              <label className="block mb-2 font-medium">Field Of Interest</label>
+              <label className="block mb-2 font-medium">
+                Field Of Interest
+              </label>
               <select className="w-full p-3 bg-[#2C2C2C] rounded-lg border border-gray-700 focus:outline-none">
                 <option>Programming and tech</option>
                 <option>Design</option>

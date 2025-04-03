@@ -70,7 +70,7 @@ function Job() {
                 <label className="block mb-1 font-medium">Category</label>
                 <Select
                   mode="tags"
-                  className="bg-[#131313] w-[20vw] mt-[1vh] px-[2vh] h-[5vh] categ"
+                  className="bg-[#131313] w-[20vw] mt-[1vh] px-[2vh] h-[5vh] "
                   onChange={(value) => handleChange(value, "fot")}
                   style={{ backgroundColor: "black", color: "white" }}
                   tokenSeparators={[","]}
