@@ -15,6 +15,7 @@ const Dashboard = () => {
   const [socket, setSocket] = useState(null);
   const messageRef = useRef(null);
   const loggedInUser = auth.userId;
+  const loggedInUserData = users.find((user) => user._id === loggedInUser);
 
   useEffect(() => {
     setSocket(io("http://localhost:8080"));
@@ -116,21 +117,32 @@ const Dashboard = () => {
       }
     );
   };
+  const getInitials = (firstName, lastName) => {
+    return `${firstName?.charAt(0) || ""}${
+      lastName?.charAt(0) || ""
+    }`.toUpperCase();
+  };
 
   return (
     <div className="w-screen flex">
       <div className="w-[25%] h-screen bg-secondary overflow-scroll">
         <div className="flex items-center my-8 mx-14">
           <div>
-            <img
-              src={tutorialsdev}
-              width={75}
-              height={75}
-              className="border border-primary p-[2px] rounded-full"
-            />
+            {loggedInUserData && loggedInUserData.firstName && (
+              <div className="w-[60px] h-[60px] flex items-center justify-center bg-gray-500 text-white rounded-full text-lg font-bold">
+                {getInitials(
+                  loggedInUserData.firstName,
+                  loggedInUserData.lastName
+                )}
+              </div>
+            )}
           </div>
           <div className="ml-8">
-            <h3 className="text-2xl">{loggedInUser?.fullName}</h3>
+            {loggedInUserData && loggedInUserData.firstName && (
+              <h3 className="text-2xl">
+                {loggedInUserData?.firstName + " " + loggedInUserData.lastName}
+              </h3>
+            )}
             <p className="text-lg font-light">My Account</p>
           </div>
         </div>
@@ -147,10 +159,9 @@ const Dashboard = () => {
                       onClick={() => fetchMessages(conversationId, user)}
                     >
                       <div>
-                        <img
-                          src={Img1}
-                          className="w-[60px] h-[60px] rounded-full p-[2px] border border-primary"
-                        />
+                        <div className="w-[60px] h-[60px] flex items-center justify-center bg-gray-500 text-white rounded-full text-lg font-bold">
+                          {getInitials(user.firstName, user.lastName)}
+                        </div>
                       </div>
                       <div className="ml-6">
                         <h3 className="text-lg font-semibold">
@@ -176,7 +187,12 @@ const Dashboard = () => {
         {messages?.receiver?.firstName && (
           <div className="w-[75%] bg-secondary h-[80px] my-14 rounded-full flex items-center px-14 py-2">
             <div className="cursor-pointer">
-              <img src={Img1} width={60} height={60} className="rounded-full" />
+              <div className="w-[60px] h-[60px] flex items-center justify-center bg-gray-500 text-white rounded-full text-lg font-bold">
+                {getInitials(
+                  messages?.receiver?.firstName,
+                  messages?.receiver?.lastName
+                )}
+              </div>
             </div>
             <div className="ml-6 mr-auto">
               <h3 className="text-lg">
@@ -219,7 +235,7 @@ const Dashboard = () => {
                       className={`max-w-[40%] rounded-b-xl p-4 mb-6 ${
                         id === loggedInUser
                           ? "bg-primary text-black bg-green-400 rounded-tl-xl ml-auto"
-                          : "bg-secondary rounded-tr-xl "
+                          : "bg-secondary rounded-tr-xl text-black bg-green-400"
                       } `}
                     >
                       {message}
@@ -271,25 +287,7 @@ const Dashboard = () => {
               className={`ml-4 p-2 cursor-pointer bg-light rounded-full ${
                 !message && "pointer-events-none"
               }`}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="icon icon-tabler icon-tabler-circle-plus"
-                width="30"
-                height="30"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="#2c3e50"
-                fill="none"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                <circle cx="12" cy="12" r="9" />
-                <line x1="9" y1="12" x2="15" y2="12" />
-                <line x1="12" y1="9" x2="12" y2="15" />
-              </svg>
-            </div>
+            ></div>
           </div>
         )}
       </div>
@@ -305,10 +303,9 @@ const Dashboard = () => {
                     onClick={() => fetchMessages("new", user)}
                   >
                     <div>
-                      <img
-                        src={Img1}
-                        className="w-[60px] h-[60px] rounded-full p-[2px] border border-primary"
-                      />
+                      <div className="w-[60px] h-[60px] flex items-center justify-center bg-gray-500 text-white rounded-full text-lg font-bold">
+                        {getInitials(user.firstName, user.lastName)}
+                      </div>
                     </div>
                     <div className="ml-6">
                       <h3 className="text-lg font-semibold">

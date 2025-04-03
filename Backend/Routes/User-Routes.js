@@ -40,7 +40,7 @@ router.post(
 );
 router.post(
   "/create/user",
-  imageUpload.single("image"),
+  imageUpload.single("resume"),
   [
     check("firstName").isLength({ min: 2, max: 255 }),
     check("lastName").isLength({ min: 2, max: 255 }),
@@ -54,7 +54,7 @@ router.post(
 router.patch(
   "/update/user/byid/:id",
 
-  imageUpload.single("image"),
+  imageUpload.single("resume"),
   [
     check("firstName").isLength({ min: 2, max: 255 }).optional(),
     check("lastName").isLength({ min: 2, max: 255 }).optional(),

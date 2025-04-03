@@ -10,6 +10,12 @@ const userSchema = new Schema({
   password: { type: String },
   mobile: { type: String },
   role: { type: String },
+  designation: { type: String },
+  fot: [{ type: String }],
+  course: [{ type: String }],
+  yop: { type: String },
+  resume: { type: String },
+
   //   address: { type: String },
   //   pincode: { type: String },
   //   state: { type: String },

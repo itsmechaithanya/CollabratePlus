@@ -47,7 +47,7 @@ const createUser = async (req, res, next) => {
     email,
     password: hashedPassword,
     mobile,
-    role,
+    role: "Guest",
     // image,
   });
   try {
@@ -242,11 +242,23 @@ const updateUserById = async (req, res, next) => {
   }
   const id = req.params.id;
 
-  const { firstName, lastName, password, mobile, role, email } = req.body;
+  const {
+    firstName,
+    lastName,
+    password,
+    mobile,
+    role,
+    email,
+    designation,
+    fot,
+    yop,
+    course,
+  } = req.body;
   let user;
   try {
     user = await User.findOne({ _id: id });
   } catch (err) {
+    console.log(err);
     const error = new HttpError(
       "Something went wrong while fetching the data, please try again",
       500
@@ -273,13 +285,13 @@ const updateUserById = async (req, res, next) => {
       return next(error);
     }
   }
-  var image = null;
+  var resume = null;
   if (req.file) {
-    image = req.file.path;
+    resume = req.file.path;
   }
 
-  if (image) {
-    user.image = image;
+  if (resume) {
+    user.resume = resume;
   }
   (user.firstName = firstName ? firstName : user.firstName),
     (user.lastName = lastName ? lastName : user.lastName),
@@ -287,7 +299,18 @@ const updateUserById = async (req, res, next) => {
     (user.password = updatedPassword),
     (user.mobile = mobile ? mobile : user.mobile),
     (user.role = role ? role : user.role),
-    (user.image = image ? image : user.image);
+    (user.designation = designation ? designation : user.designation),
+    (user.fot =
+      fot && fot.length > 0
+        ? Array.from(new Set([...(user.fot || []), ...fot]))
+        : user.fot);
+  user.course =
+    course && course.length > 0
+      ? Array.from(new Set([...(user.course || []), ...course]))
+      : user.course;
+
+  (user.yop = yop ? yop : user.yop),
+    (user.resume = resume ? resume : user.resume);
   try {
     await user.save();
   } catch (err) {

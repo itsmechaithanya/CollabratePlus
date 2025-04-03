@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import React, { Suspense, useContext } from "react";
 import Lenis from "lenis";
 import "remixicon/fonts/remixicon.css";
 import {
@@ -27,6 +27,7 @@ function App() {
   const lenis = new Lenis({
     autoRaf: true,
   });
+  const auth = useContext(AuthContext);
 
   // Listen for the scroll event and log the event data
   lenis.on("scroll", (e) => {
@@ -68,6 +69,7 @@ function App() {
         <Route path="/chats" element={<Dashboard />} />
 
         <Route path="/" element={<Home />} />
+        {/* <Route path="/*" element={<Navigate to="/" replace />} /> */}
       </Routes>
     );
   } else if (role === "Faculty") {
@@ -80,6 +82,7 @@ function App() {
         <Route path="/resume" element={<Resume />} />
         <Route path="/chats" element={<Dashboard />} />
         <Route path="/" element={<Home />} />
+        {/* <Route path="/*" element={<Navigate to="/" replace />} /> */}
       </Routes>
     );
   } else if (role === "Student") {
@@ -92,9 +95,10 @@ function App() {
         <Route path="/resume" element={<Resume />} />
         <Route path="/chats" element={<Dashboard />} />
         <Route path="/" element={<Home />} />
+        {/* <Route path="/*" element={<Navigate to="/" replace />} /> */}
       </Routes>
     );
-  } else {
+  } else if (role === "Guest") {
     routes = (
       <Routes>
         <Route path="/welcome" element={<Welcome />} />
@@ -104,6 +108,14 @@ function App() {
         <Route path="/resume" element={<Resume />} />
         <Route path="/chats" element={<Dashboard />} />
         <Route path="/" element={<Home />} />
+        {/* <Route path="/*" element={<Navigate to="/" replace />} /> */}
+      </Routes>
+    );
+  } else {
+    routes = (
+      <Routes>
+        {/* <Route path="/chats" element={<Dashboard />} /> */}
+        {/* <Route path="/" element={<Home />} /> */}
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/*" element={<Navigate to="/login" replace />} />

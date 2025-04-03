@@ -5,8 +5,11 @@ const MIME_TYPE_MAP = {
   "image/jpeg": "jpeg",
   "image/jpg": "jpg",
   "application/pdf": "pdf",
+  "application/msword": "doc",
   "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
     "docx",
+  "text/plain": "txt",
+  "application/rtf": "rtf",
 };
 const fileUpload = multer({
   limits: 26214400,
