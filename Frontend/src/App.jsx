@@ -22,6 +22,7 @@ import { AuthContext } from "./components/auth/Auth-context";
 import Dashboard from "./modules/Dashboard";
 import Job from "./components/Job";
 import Profile from "./components/Profile";
+import JD from "./components/JD";
 // import ChatProvider from "./components/chat/component/miscellaneous/ChatProvider";
 
 function App() {
@@ -72,6 +73,7 @@ function App() {
         <Route path="/Jobs" element={<Job />} />
         <Route path="/" element={<Home />} />
         <Route path="/Profile" element={<Profile />} />
+        <Route path="/JD" element={<JD />} />
         {/* <Route path="/*" element={<Navigate to="/" replace />} /> */}
       </Routes>
     );
@@ -87,6 +89,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/Jobs" element={<Job />} />
         <Route path="/Profile" element={<Profile />} />
+        <Route path="/JD" element={<JD />} />
         {/* <Route path="/*" element={<Navigate to="/" replace />} /> */}
       </Routes>
     );
@@ -102,6 +105,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/Jobs" element={<Job />} />
         <Route path="/Profile" element={<Profile />} />
+        <Route path="/JD" element={<JD />} />
         {/* <Route path="/*" element={<Navigate to="/" replace />} /> */}
       </Routes>
     );
@@ -117,6 +121,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/Jobs" element={<Job />} />
         <Route path="/Profile" element={<Profile />} />
+        <Route path="/JD" element={<JD />} />
         {/* <Route path="/*" element={<Navigate to="/" replace />} /> */}
       </Routes>
     );
@@ -131,6 +136,7 @@ function App() {
         <Route path="/*" element={<Navigate to="/login" replace />} />
         <Route path="/Jobs" element={<Job />} />
         <Route path="/Profile" element={<Profile />} />
+        <Route path="/JD" element={<JD />} />
       </Routes>
     );
   }

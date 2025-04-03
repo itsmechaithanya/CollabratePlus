@@ -124,7 +124,7 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="w-screen flex">
+    <div className="w-screen flex bg-black text-white">
       <div className="w-[25%] h-screen bg-secondary overflow-y-auto">
         <div className="flex items-center my-8 mx-14">
           <div>
@@ -183,7 +183,7 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
-      <div className="w-[50%] h-screen bg-white flex flex-col items-center">
+      <div className="w-[50%] h-screen bg-black text-white flex flex-col items-center">
         {messages?.receiver?.firstName && (
           <div
             className="w-[75%] bg-secondary h-[80px] my-14 rounded-full flex items-center px-14 py-2"
@@ -299,7 +299,7 @@ const Dashboard = () => {
         style={{ willChange: "transform", scrollBehavior: "smooth" }}
       >
         <div className="text-primary text-lg">People</div>
-        <div>
+        <div className="h-screen overflow-auto">
           {users.length > 0 ? (
             users.map((user) => {
               return (

@@ -7,7 +7,8 @@ import Group3 from "../assets/Group3.png";
 import Group6 from "../assets/Group6.png";
 import Group7 from "../assets/Group7.png";
 import me from "../assets/me.png";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
 
 function Home() {
   const navigate = useNavigate();
@@ -61,10 +62,11 @@ function Home() {
       </div>
       <div className="ml-[5vw] flex gap-[5vw]">
         <h1 className="text-[3vh] border-b-2">Most recent</h1>
-        <h1 className="text-[3vh]">Saved Jobs</h1>
+        <Link to="https://resume-matching-hmrfant85g3yugesfsnmyq.streamlit.app/"><h1 className="text-[3vh]">Personalised Job</h1></Link>
       </div>
       <div className="w-screen flex justify-center mt-[5vh]">
-        <div className="h-[43vh] w-[90vw] bg-[#131313] p-[2vw] rounded-[2vh] flex justify-between">
+      <Link to="/JD">
+      <div className="h-[43vh] w-[90vw] bg-[#131313] p-[2vw] rounded-[2vh] flex justify-between">
           <div className="w-[65vw] h-full flex flex-col justify-between">
             <div className="">
               <h1>Programming And Tech.</h1>
@@ -87,20 +89,15 @@ function Home() {
             </div>
           </div>
           <div className="h-[36vh] w-[15vw] bg-[#232323] flex flex-col items-center rounded-[2vh]">
-            <h1 className="mt-[2vh]">Paid</h1>
-            <div className="h-[6vh] w-[6vh] bg-zinc-300 rounded-full my-[1vh]">
-              <img src={me} alt="" />
+            <h1 className="mt-[3vh]">Paid</h1>
+            <div className="h-[10vh] w-[10vh] mt-[6vh] bg-zinc-300 rounded-full my-[1vh]">
+              <img src={me} className="w-full h-full" alt="" />
             </div>
-            <h1 className="text-[2.5vh]">Chaithanya</h1>
+            <h1 className="text-[2.5vh] mt-[2vh]">Chaithanya</h1>
             <h1 className="text-[1.5vh]">2025 BTech</h1>
-            <h1 className="px-[2vw] py-[1vh] border rounded-full mt-[3vh]">
-              Save
-            </h1>
-            <h1 className="px-[2vw] py-[1vh] border rounded-full mt-[1vh] bg-white text-black">
-              Chat
-            </h1>
           </div>
         </div>
+      </Link>
       </div>
       <div className="w-screen flex justify-center mt-[5vh]">
         <div className="h-[43vh] w-[90vw] bg-[#131313] p-[2vw] rounded-[2vh] flex justify-between">
