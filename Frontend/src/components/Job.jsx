@@ -1,7 +1,14 @@
+<<<<<<< HEAD
 import React from "react";
 import { FaTrash } from "react-icons/fa";
 import { Input, DatePicker, Select } from "antd";
 import "./job.css";
+=======
+import React from 'react';
+import { FaTrash } from 'react-icons/fa';
+import { Input, DatePicker, Select } from 'antd';
+import { Link, useNavigate } from "react-router-dom";
+>>>>>>> 8851b0de4e874306261a26d1324f872b1763b384
 
 const { TextArea } = Input;
 const onChange = (e) => {
@@ -33,12 +40,17 @@ fieldOfInterestOptions.push({
 function Job() {
   return (
     <div className="h-screen bg-black text-white px-12 py-8 font-sans">
+<<<<<<< HEAD
       <div className="flex items-center gap-[2vw]">
         <i
           onClick={() => navigate("/")}
           style={{ cursor: "pointer" }}
           class="ri-arrow-left-line text-black bg-white text-xl font-bold px-[1vh] py-[.5vh] rounded-full"
         ></i>
+=======
+        <div className='flex items-center gap-[2vw]'>
+            <Link to="/"><i class="ri-arrow-left-line text-black bg-white text-xl font-bold px-[1vh] py-[1vh] rounded-full"></i></Link>
+>>>>>>> 8851b0de4e874306261a26d1324f872b1763b384
         <h1 className="text-2xl font-semibold">Provide Job</h1>
       </div>
       <div className="mt-8">
@@ -132,7 +144,7 @@ function Job() {
           </div>
         </div>
       </div>
-      <div className="mt-8 flex justify-end absolute bottom-[6vh] right-[18vw]">
+      <div className="mt-8 flex justify-end absolute bottom-[12vh] right-[28vw]">
         <button className="bg-white text-black px-6 py-3 rounded-full font-medium">
           Save
         </button>
