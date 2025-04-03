@@ -20,6 +20,8 @@ import { useAuth } from "./components/auth/auth-hook";
 import { BeatLoader } from "react-spinners";
 import { AuthContext } from "./components/auth/Auth-context";
 import Dashboard from "./modules/Dashboard";
+import Job from "./components/Job";
+import Profile from "./components/Profile";
 // import ChatProvider from "./components/chat/component/miscellaneous/ChatProvider";
 
 function App() {
@@ -67,8 +69,9 @@ function App() {
         <Route path="/higherdetails" element={<HigherDetails />} />
         <Route path="/resume" element={<Resume />} />
         <Route path="/chats" element={<Dashboard />} />
-
+        <Route path="/Jobs" element={<Job />} />
         <Route path="/" element={<Home />} />
+        <Route path="/Profile" element={<Profile />} />
         {/* <Route path="/*" element={<Navigate to="/" replace />} /> */}
       </Routes>
     );
@@ -82,6 +85,8 @@ function App() {
         <Route path="/resume" element={<Resume />} />
         <Route path="/chats" element={<Dashboard />} />
         <Route path="/" element={<Home />} />
+        <Route path="/Jobs" element={<Job />} />
+        <Route path="/Profile" element={<Profile />} />
         {/* <Route path="/*" element={<Navigate to="/" replace />} /> */}
       </Routes>
     );
@@ -95,6 +100,8 @@ function App() {
         <Route path="/resume" element={<Resume />} />
         <Route path="/chats" element={<Dashboard />} />
         <Route path="/" element={<Home />} />
+        <Route path="/Jobs" element={<Job />} />
+        <Route path="/Profile" element={<Profile />} />
         {/* <Route path="/*" element={<Navigate to="/" replace />} /> */}
       </Routes>
     );
@@ -108,6 +115,8 @@ function App() {
         <Route path="/resume" element={<Resume />} />
         <Route path="/chats" element={<Dashboard />} />
         <Route path="/" element={<Home />} />
+        <Route path="/Jobs" element={<Job />} />
+        <Route path="/Profile" element={<Profile />} />
         {/* <Route path="/*" element={<Navigate to="/" replace />} /> */}
       </Routes>
     );
@@ -120,6 +129,8 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/" element={<Home />} />
         <Route path="/*" element={<Navigate to="/login" replace />} />
+        <Route path="/Jobs" element={<Job />} />
+        <Route path="/Profile" element={<Profile />} />
       </Routes>
     );
   }

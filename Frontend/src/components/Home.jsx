@@ -19,8 +19,9 @@ function Home() {
           <h1 onClick={() => navigate("/chats")} style={{ cursor: "pointer" }}>
             Chats
           </h1>
-          <h1>Provide Job</h1>
-          <div className="h-[5vh] w-[5vh] bg-zinc-300 rounded-full">
+          <h1 onClick={() => navigate("/Jobs")} style={{ cursor: "pointer" }}
+            >Provide Job</h1>
+          <div onClick={() => navigate("/Profile")} style={{ cursor: "pointer" }} className="h-[5vh] w-[5vh] bg-zinc-300 rounded-full">
             <img src={me} alt="" />
           </div>
         </div>
