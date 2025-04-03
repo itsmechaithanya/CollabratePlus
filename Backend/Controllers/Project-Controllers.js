@@ -1,7 +1,7 @@
 const HttpError = require("../Middleware/http-error");
 const { validationResult } = require("express-validator");
-const Project = require("../Models/Project");
-const Department = require("../Models/Department");
+const Project = require("../Models/Projects");
+
 const fs = require("fs");
 const createProject = async (req, res, next) => {
   const errors = validationResult(req);

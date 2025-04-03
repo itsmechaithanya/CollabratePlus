@@ -12,4 +12,4 @@ const projectSchema = new Schema({
   progress: { type: String },
 });
 
-module.exports = mongoose.model("User", projectSchema);
+module.exports = mongoose.model("Project", projectSchema);

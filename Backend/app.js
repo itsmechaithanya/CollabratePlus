@@ -7,6 +7,7 @@ const cors = require("cors");
 const userRoutes = require("./Routes/User-Routes");
 const conversationRoutes = require("./Routes/Conversation-Routes");
 const messageRoutes = require("./Routes/Message-Routes");
+const projectRoutes = require("./Routes/Project-Routes");
 const User = require("./Models/User");
 
 dotenv.config();
@@ -32,6 +33,7 @@ app.use((req, res, next) => {
 
 app.use("/api/collaborate/user", userRoutes);
 app.use("/api/collaborate/message", messageRoutes);
+app.use("/api/collaborate/project", projectRoutes);
 app.use("/api/collaborate/conversation", conversationRoutes);
 app.get("/", (req, res) => {
   return res.status(200).json({ message: "Hello World" });
