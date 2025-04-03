@@ -1,7 +1,7 @@
 import React from 'react';
 import { FaTrash } from 'react-icons/fa';
 import { Input, DatePicker, Select } from 'antd';
-import "./job.css"
+import { Link, useNavigate } from "react-router-dom";
 
 const { TextArea } = Input;
 const onChange = e => {
@@ -34,7 +34,7 @@ function Job() {
   return (
     <div className="h-screen bg-black text-white px-12 py-8 font-sans">
         <div className='flex items-center gap-[2vw]'>
-            <i onClick={() => navigate("/")} style={{ cursor: "pointer" }} class="ri-arrow-left-line text-black bg-white text-xl font-bold px-[1vh] py-[.5vh] rounded-full"></i>
+            <Link to="/"><i class="ri-arrow-left-line text-black bg-white text-xl font-bold px-[1vh] py-[1vh] rounded-full"></i></Link>
         <h1 className="text-2xl font-semibold">Provide Job</h1>
         </div>
       <div className="mt-8">
