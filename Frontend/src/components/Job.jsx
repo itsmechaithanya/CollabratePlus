@@ -1,11 +1,11 @@
-import React from 'react';
-import { FaTrash } from 'react-icons/fa';
-import { Input, DatePicker, Select } from 'antd';
-import "./job.css"
+import React from "react";
+import { FaTrash } from "react-icons/fa";
+import { Input, DatePicker, Select } from "antd";
+import "./job.css";
 
 const { TextArea } = Input;
-const onChange = e => {
-  console.log('Change:', e.target.value);
+const onChange = (e) => {
+  console.log("Change:", e.target.value);
 };
 
 const fieldOfInterestOptions = [];
@@ -33,14 +33,19 @@ fieldOfInterestOptions.push({
 function Job() {
   return (
     <div className="h-screen bg-black text-white px-12 py-8 font-sans">
-        <div className='flex items-center gap-[2vw]'>
-            <i onClick={() => navigate("/")} style={{ cursor: "pointer" }} class="ri-arrow-left-line text-black bg-white text-xl font-bold px-[1vh] py-[.5vh] rounded-full"></i>
+      <div className="flex items-center gap-[2vw]">
+        <i
+          onClick={() => navigate("/")}
+          style={{ cursor: "pointer" }}
+          class="ri-arrow-left-line text-black bg-white text-xl font-bold px-[1vh] py-[.5vh] rounded-full"
+        ></i>
         <h1 className="text-2xl font-semibold">Provide Job</h1>
-        </div>
+      </div>
       <div className="mt-8">
         <h2 className="text-[6vh] font-bold">Job Information</h2>
         <p className="text-gray-400 mt-2">
-          Here you can edit and update public information about <br /> all the job posting.
+          Here you can edit and update public information about <br /> all the
+          job posting.
         </p>
       </div>
       <div className="flex flex-row mt-8 space-x-8">
@@ -50,7 +55,7 @@ function Job() {
               <div className="mb-4">
                 <label className="block mb-1 font-medium">Title</label>
                 <input
-                  type="text" 
+                  type="text"
                   className="w-full p-2 bg-black rounded-lg border border-gray-700 focus:outline-none px-[1vw]"
                 />
               </div>
@@ -64,13 +69,13 @@ function Job() {
               <div className="mb-4">
                 <label className="block mb-1 font-medium">Category</label>
                 <Select
-              mode="tags"
-              className="bg-[#131313] w-[20vw] mt-[1vh] px-[2vh] h-[5vh] "
-              onChange={(value) => handleChange(value, "fot")}
-              style={{ backgroundColor:'black', color:'white',  }}
-              tokenSeparators={[","]}
-              options={fieldOfInterestOptions}
-            />
+                  mode="tags"
+                  className="bg-[#131313] w-[20vw] mt-[1vh] px-[2vh] h-[5vh] categ"
+                  onChange={(value) => handleChange(value, "fot")}
+                  style={{ backgroundColor: "black", color: "white" }}
+                  tokenSeparators={[","]}
+                  options={fieldOfInterestOptions}
+                />
               </div>
             </div>
             <div>
@@ -81,10 +86,23 @@ function Job() {
                 maxLength={100}
                 onChange={onChange}
                 placeholder="disable resize"
-                style={{ height: 120, backgroundColor:'black', color:'white',  borderColor:'#374151', resize: 'none' }}
-                />
-                <label className="block mb-1 font-medium mt-[3vh]">Date</label>
-                <DatePicker onChange={onChange} style={{ backgroundColor:'black', color:'white',  borderColor:'#374151' }} />
+                style={{
+                  height: 120,
+                  backgroundColor: "black",
+                  color: "white",
+                  borderColor: "#374151",
+                  resize: "none",
+                }}
+              />
+              <label className="block mb-1 font-medium mt-[3vh]">Date</label>
+              <DatePicker
+                onChange={onChange}
+                style={{
+                  backgroundColor: "black",
+                  color: "white",
+                  borderColor: "#374151",
+                }}
+              />
             </div>
           </div>
         </div>

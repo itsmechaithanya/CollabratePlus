@@ -125,7 +125,7 @@ const Dashboard = () => {
 
   return (
     <div className="w-screen flex">
-      <div className="w-[25%] h-screen bg-secondary overflow-scroll">
+      <div className="w-[25%] h-screen bg-secondary overflow-y-auto">
         <div className="flex items-center my-8 mx-14">
           <div>
             {loggedInUserData && loggedInUserData.firstName && (
@@ -185,7 +185,10 @@ const Dashboard = () => {
       </div>
       <div className="w-[50%] h-screen bg-white flex flex-col items-center">
         {messages?.receiver?.firstName && (
-          <div className="w-[75%] bg-secondary h-[80px] my-14 rounded-full flex items-center px-14 py-2">
+          <div
+            className="w-[75%] bg-secondary h-[80px] my-14 rounded-full flex items-center px-14 py-2"
+            style={{ willChange: "transform", scrollBehavior: "smooth" }}
+          >
             <div className="cursor-pointer">
               <div className="w-[60px] h-[60px] flex items-center justify-center bg-gray-500 text-white rounded-full text-lg font-bold">
                 {getInitials(
@@ -291,7 +294,10 @@ const Dashboard = () => {
           </div>
         )}
       </div>
-      <div className="w-[25%] h-screen bg-light px-8 py-16 overflow-scroll">
+      <div
+        className="w-[25%] h-screen bg-light px-8 py-16 overflow-y-auto"
+        style={{ willChange: "transform", scrollBehavior: "smooth" }}
+      >
         <div className="text-primary text-lg">People</div>
         <div>
           {users.length > 0 ? (
