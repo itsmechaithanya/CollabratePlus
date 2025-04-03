@@ -114,7 +114,7 @@ function Job() {
           </div>
         </div>
       </div>
-      <div className="mt-8 flex justify-end absolute bottom-[6vh] right-[18vw]">
+      <div className="mt-8 flex justify-end absolute bottom-[12vh] right-[28vw]">
         <button className="bg-white text-black px-6 py-3 rounded-full font-medium">
           Save
         </button>
