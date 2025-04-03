@@ -68,14 +68,13 @@ function Job() {
               </div>
               <div className="mb-4">
                 <label className="block mb-1 font-medium">Category</label>
-                <Select
-                  mode="tags"
-                  className="bg-[#131313] w-[20vw] mt-[1vh] px-[2vh] h-[5vh] "
-                  onChange={(value) => handleChange(value, "fot")}
-                  style={{ backgroundColor: "black", color: "white" }}
-                  tokenSeparators={[","]}
-                  options={fieldOfInterestOptions}
-                />
+                <select className="w-full p-3 bg-black rounded-lg border border-gray-700 focus:outline-none">
+                <option>Programming and Tech</option>
+                <option>Research and Content Writer.</option>
+                <option>Graphic and Design.</option>
+                <option>Video and Animation</option>
+                <option>Assignments and Other</option>
+              </select>
               </div>
             </div>
             <div>
