@@ -89,18 +89,12 @@ function Home() {
             </div>
           </div>
           <div className="h-[36vh] w-[15vw] bg-[#232323] flex flex-col items-center rounded-[2vh]">
-            <h1 className="mt-[2vh]">Paid</h1>
-            <div className="h-[6vh] w-[6vh] bg-zinc-300 rounded-full my-[1vh]">
-              <img src={me} alt="" />
+            <h1 className="mt-[3vh]">Paid</h1>
+            <div className="h-[10vh] w-[10vh] mt-[6vh] bg-zinc-300 rounded-full my-[1vh]">
+              <img src={me} className="w-full h-full" alt="" />
             </div>
-            <h1 className="text-[2.5vh]">Chaithanya</h1>
+            <h1 className="text-[2.5vh] mt-[2vh]">Chaithanya</h1>
             <h1 className="text-[1.5vh]">2025 BTech</h1>
-            <h1 className="px-[2vw] py-[1vh] border rounded-full mt-[3vh]">
-              Save
-            </h1>
-            <h1 className="px-[2vw] py-[1vh] border rounded-full mt-[1vh] bg-white text-black">
-              Chat
-            </h1>
           </div>
         </div>
       </Link>
