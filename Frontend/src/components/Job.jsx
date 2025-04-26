@@ -1,9 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
 import { FaTrash } from "react-icons/fa";
-import { Input, DatePicker, Select } from "antd";
+import { Input, DatePicker, Select, message } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import { Button, Upload } from "antd";
 import { AuthContext } from "./auth/Auth-context";
+import { useNavigate } from "react-router-dom";
 const props = {
   action: "//jsonplaceholder.typicode.com/posts/",
   listType: "picture",
@@ -47,6 +48,7 @@ fieldOfInterestOptions.push({
 });
 
 function Job() {
+  const navigate = useNavigate();
   const auth = useContext(AuthContext);
   const [title, setTitle] = useState("");
   const [reward, setReward] = useState("");
@@ -101,6 +103,10 @@ function Job() {
 
       if (response.ok) {
         console.log("Job created successfully!");
+        message.success("JD Created Successfully");
+        setTimeout(() => {
+          window.location.reload();
+        }, 500);
       } else {
         console.error("Error creating job");
       }
@@ -255,7 +261,15 @@ function Job() {
         >
           Save
         </button>
-        <button className="bg-white text-black px-6 py-3 rounded-full font-medium">
+        <button
+          className="bg-white text-black px-6 py-3 rounded-full font-medium"
+          onClick={() =>
+            window.open(
+              "https://jd-matching-79vrz6k2jcfjhtpbbxm3jp.streamlit.app/",
+              "_blank" // Opens in new tab
+            )
+          }
+        >
           Get recommendations
         </button>
       </div>

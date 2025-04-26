@@ -12,18 +12,22 @@ const projectSchema = new Schema({
   category: { type: String },
   files: { type: String },
   progress: { type: String },
-  number: { type: String },
+  number: { type: String, unique: true }, // Ensure uniqueness
+  applications: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
 });
+
+// Auto-generate Job Number (JD_0001)
 projectSchema.pre("save", async function (next) {
   if (!this.number) {
-    // Only set number if not already assigned
     try {
       const counter = await Counter.findOneAndUpdate(
         { name: "projectNumber" },
         { $inc: { value: 1 } },
         { new: true, upsert: true }
       );
-      this.number = counter.value.toString(); // Convert to string
+
+      const formattedNumber = `JD_${counter.value.toString().padStart(4, "0")}`;
+      this.number = formattedNumber;
     } catch (error) {
       return next(error);
     }

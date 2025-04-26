@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import logoBlack from "../assets/Logowhite.png";
 import search from "../assets/search.png";
 import Group1 from "../assets/Group1.png";
@@ -8,10 +8,36 @@ import Group6 from "../assets/Group6.png";
 import Group7 from "../assets/Group7.png";
 import me from "../assets/me.png";
 import { Link, useNavigate } from "react-router-dom";
-
+import { AuthContext } from "./auth/Auth-context";
 
 function Home() {
   const navigate = useNavigate();
+  const [projects, setProjects] = useState([]);
+  const auth = useContext(AuthContext);
+
+  // Fetch projects from API
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const response = await fetch(
+          "http://localhost:4444/api/collaborate/project/get/all/projects"
+        );
+        const data = await response.json();
+
+        // Filter out projects where auth.userId is already in the applications array
+        const filteredProjects = data.projects.filter(
+          (project) => !project.applications.includes(auth.userId)
+        );
+
+        setProjects(filteredProjects);
+      } catch (error) {
+        console.error("Error fetching projects:", error);
+      }
+    };
+
+    fetchProjects();
+  }, [auth.userId]); // Re-run effect when userId changes
+
   return (
     <div className="bg-black text-white h-fit w-full overflow-hidden">
       <div className="fixed z-10 flex items-center justify-between backdrop-blur-sm bg-[#00000053] w-[98vw] px-[5vw] h-[10vh] rounded-[2vh] mt-[2vh] ml-[1vw]">
@@ -20,9 +46,14 @@ function Home() {
           <h1 onClick={() => navigate("/chats")} style={{ cursor: "pointer" }}>
             Chats
           </h1>
-          <h1 onClick={() => navigate("/Jobs")} style={{ cursor: "pointer" }}
-            >Provide Job</h1>
-          <div onClick={() => navigate("/Profile")} style={{ cursor: "pointer" }} className="h-[5vh] w-[5vh] bg-zinc-300 rounded-full">
+          <h1 onClick={() => navigate("/Jobs")} style={{ cursor: "pointer" }}>
+            Provide Job
+          </h1>
+          <div
+            onClick={() => navigate("/Profile")}
+            style={{ cursor: "pointer" }}
+            className="h-[5vh] w-[5vh] bg-zinc-300 rounded-full"
+          >
             <img src={me} alt="" />
           </div>
         </div>
@@ -62,121 +93,48 @@ function Home() {
       </div>
       <div className="ml-[5vw] flex gap-[5vw]">
         <h1 className="text-[3vh] border-b-2">Most recent</h1>
-        <Link to="https://resume-matching-hmrfant85g3yugesfsnmyq.streamlit.app/"><h1 className="text-[3vh]">Personalised Job</h1></Link>
+        <Link to="https://resume-matching-hmrfant85g3yugesfsnmyq.streamlit.app/">
+          <h1 className="text-[3vh]">Personalised Job</h1>
+        </Link>
       </div>
-      <div className="w-screen flex justify-center mt-[5vh]">
-      <Link to="/JD">
-      <div className="h-[43vh] w-[90vw] bg-[#131313] p-[2vw] rounded-[2vh] flex justify-between">
-          <div className="w-[65vw] h-full flex flex-col justify-between">
-            <div className="">
-              <h1>Programming And Tech.</h1>
-              <h1 className="text-[3vh] w-1/3">
-                Web Developer Needed for Business Project
-              </h1>
-            </div>
-            <div>
-              <p>
-                We are seeking a talented web developer to create simple and
-                clean websites for two business projects: a local news and
-                public information aggregator, and a mobile notary public
-                service. The ideal candidate should have experience in designing
-                user-friendly interfaces and providing responsive web solutions.
-                Your creativity and attention to detail will be crucial in
-                delivering functional and visually appealing websites that meet
-                our business needs. The implementation of AI solutions would be
-                extremely valuable.
-              </p>
-            </div>
-          </div>
-          <div className="h-[36vh] w-[15vw] bg-[#232323] flex flex-col items-center rounded-[2vh]">
-            <h1 className="mt-[3vh]">Paid</h1>
-            <div className="h-[10vh] w-[10vh] mt-[6vh] bg-zinc-300 rounded-full my-[1vh]">
-              <img src={me} className="w-full h-full" alt="" />
-            </div>
-            <h1 className="text-[2.5vh] mt-[2vh]">Chaithanya</h1>
-            <h1 className="text-[1.5vh]">2025 BTech</h1>
-          </div>
-        </div>
-      </Link>
+      <div className="w-screen flex flex-col items-center mt-[5vh]">
+        {projects.length > 0 ? (
+          projects.map((project) => (
+            <Link
+              to={`/projects/${project.number}`}
+              key={project._id}
+              className="w-[90vw]"
+            >
+              <div className="h-[43vh] bg-[#131313] p-[2vw] rounded-[2vh] flex justify-between mb-[5vh]">
+                <div className="w-[65vw] h-full flex flex-col justify-between">
+                  <div>
+                    <h1>{project.category || "Programming And Tech."}</h1>
+                    <h1 className="text-[3vh] w-1/3">{project.title}</h1>
+                  </div>
+                  <p>{project.description.substring(0, 200)}...</p>
+                </div>
+                <div className="h-[36vh] w-[15vw] bg-[#232323] flex flex-col items-center rounded-[2vh]">
+                  <h1 className="mt-[3vh]">{project.reward}</h1>
+                  <div className="h-[10vh] w-[10vh] mt-[6vh] bg-zinc-300 rounded-full my-[1vh]">
+                    <img src={me} className="w-full h-full" alt="Owner" />
+                  </div>
+                  <h1 className="text-[2.5vh] mt-[2vh]">
+                    {project.createdBy[0]?.name || "Unknown"}
+                  </h1>
+                  <h1 className="text-[1.5vh]">
+                    {project.deadline || "No Deadline"}
+                  </h1>
+                </div>
+              </div>
+            </Link>
+          ))
+        ) : (
+          <h1 className="text-center text-[2vh] text-gray-400">
+            No projects available.
+          </h1>
+        )}
       </div>
-      <div className="w-screen flex justify-center mt-[5vh]">
-        <div className="h-[43vh] w-[90vw] bg-[#131313] p-[2vw] rounded-[2vh] flex justify-between">
-          <div className="w-[65vw] h-full flex flex-col justify-between">
-            <div className="">
-              <h1>Programming And Tech.</h1>
-              <h1 className="text-[3vh] w-1/3">
-                Web Developer Needed for Business Project
-              </h1>
-            </div>
-            <div>
-              <p>
-                We are seeking a talented web developer to create simple and
-                clean websites for two business projects: a local news and
-                public information aggregator, and a mobile notary public
-                service. The ideal candidate should have experience in designing
-                user-friendly interfaces and providing responsive web solutions.
-                Your creativity and attention to detail will be crucial in
-                delivering functional and visually appealing websites that meet
-                our business needs. The implementation of AI solutions would be
-                extremely valuable.
-              </p>
-            </div>
-          </div>
-          <div className="h-[36vh] w-[15vw] bg-[#232323] flex flex-col items-center rounded-[2vh]">
-            <h1 className="mt-[2vh]">Paid</h1>
-            <div className="h-[6vh] w-[6vh] bg-zinc-300 rounded-full my-[1vh]">
-              <img src={me} alt="" />
-            </div>
-            <h1 className="text-[2.5vh]">Chaithanya</h1>
-            <h1 className="text-[1.5vh]">2025 BTech</h1>
-            <h1 className="px-[2vw] py-[1vh] border rounded-full mt-[3vh]">
-              Save
-            </h1>
-            <h1 className="px-[2vw] py-[1vh] border rounded-full mt-[1vh] bg-white text-black">
-              Chat
-            </h1>
-          </div>
-        </div>
-      </div>
-      <div className="w-screen flex justify-center mt-[5vh]">
-        <div className="h-[43vh] w-[90vw] bg-[#131313] p-[2vw] rounded-[2vh] flex justify-between">
-          <div className="w-[65vw] h-full flex flex-col justify-between">
-            <div className="">
-              <h1>Programming And Tech.</h1>
-              <h1 className="text-[3vh] w-1/3">
-                Web Developer Needed for Business Project
-              </h1>
-            </div>
-            <div>
-              <p>
-                We are seeking a talented web developer to create simple and
-                clean websites for two business projects: a local news and
-                public information aggregator, and a mobile notary public
-                service. The ideal candidate should have experience in designing
-                user-friendly interfaces and providing responsive web solutions.
-                Your creativity and attention to detail will be crucial in
-                delivering functional and visually appealing websites that meet
-                our business needs. The implementation of AI solutions would be
-                extremely valuable.
-              </p>
-            </div>
-          </div>
-          <div className="h-[36vh] w-[15vw] bg-[#232323] flex flex-col items-center rounded-[2vh]">
-            <h1 className="mt-[2vh]">Paid</h1>
-            <div className="h-[6vh] w-[6vh] bg-zinc-300 rounded-full my-[1vh]">
-              <img src={me} alt="" />
-            </div>
-            <h1 className="text-[2.5vh]">Chaithanya</h1>
-            <h1 className="text-[1.5vh]">2025 BTech</h1>
-            <h1 className="px-[2vw] py-[1vh] border rounded-full mt-[3vh]">
-              Save
-            </h1>
-            <h1 className="px-[2vw] py-[1vh] border rounded-full mt-[1vh] bg-white text-black">
-              Chat
-            </h1>
-          </div>
-        </div>
-      </div>
+
       <div className="flex justify-between items-center px-[8vh]">
         <div className=" h-[60vh] w-full flex justify-between items-center">
           <div className="">

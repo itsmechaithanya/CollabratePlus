@@ -1,6 +1,7 @@
 const HttpError = require("../Middleware/http-error");
 const { validationResult } = require("express-validator");
 const Project = require("../Models/Projects");
+const mongoose = require("mongoose");
 
 const fs = require("fs");
 const createProject = async (req, res, next) => {
@@ -81,6 +82,20 @@ const getProjectById = async (req, res, next) => {
   }
   res.status(200).json({ project: project });
 };
+const getProjectByNumber = async (req, res, next) => {
+  const number = req.params.number;
+  let project;
+  try {
+    project = await Project.findOne({ number: number });
+  } catch (err) {
+    const error = new HttpError(
+      "Something went wrong while fetching the data, please try again",
+      500
+    );
+    return next(error);
+  }
+  res.status(200).json({ project: project });
+};
 const getProjectsByEmail = async (req, res, next) => {
   const email = req.params.email;
   let projects;
@@ -139,6 +154,45 @@ const updateProjectById = async (req, res, next) => {
   }
   res.status(201).json({ project: project });
 };
+
+const apply = async (req, res, next) => {
+  const number = req.params.number;
+  let project;
+  let { applications } = req.body;
+
+  try {
+    project = await Project.findOne({ number: number });
+  } catch (err) {
+    return next(new HttpError("Error fetching project", 500));
+  }
+
+  if (!project) {
+    return next(new HttpError("Project not found", 404));
+  }
+
+  // Ensure applications is an array of ObjectIds
+  if (!Array.isArray(applications)) {
+    applications = [applications]; // Convert single string to array
+  }
+
+  applications = applications.map(
+    (appId) => new mongoose.Types.ObjectId(appId)
+  );
+
+  // Append new applications while avoiding duplicates
+  project.applications = [
+    ...new Set([...project.applications, ...applications]),
+  ];
+
+  try {
+    await project.save();
+  } catch (err) {
+    return next(new HttpError("Error saving application", 500));
+  }
+
+  res.status(201).json({ project });
+};
+
 const addProjectFileById = async (req, res, next) => {
   const id = req.params.id;
   let project;
@@ -239,9 +293,11 @@ const deleteProjectById = async (req, res, next) => {
   res.status(200).json({ message: "Project deleted successfully" });
 };
 exports.createProject = createProject;
+exports.apply = apply;
 exports.addProjectFileById = addProjectFileById;
 exports.getAllProjects = getAllProjects;
 exports.getProjectById = getProjectById;
+exports.getProjectByNumber = getProjectByNumber;
 exports.getProjectsByEmail = getProjectsByEmail;
 exports.updateProjectById = updateProjectById;
 exports.updateProjectProgressById = updateProjectProgressById;

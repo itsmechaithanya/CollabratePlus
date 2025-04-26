@@ -33,10 +33,17 @@ router.get(
   projectControllers.getProjectById
 );
 router.get(
+  "/get/project/bynumber/:number",
+
+  cacheMiddleware,
+  projectControllers.getProjectByNumber
+);
+router.get(
   "/get/projects/byEmail/:email",
   cacheMiddleware,
   projectControllers.getProjectsByEmail
 );
+router.patch("/apply/:number", cacheMiddleware, projectControllers.apply);
 router.post(
   "/create/project",
   imageUpload.any("files"),
